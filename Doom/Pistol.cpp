@@ -11,6 +11,6 @@ void APistol::FireWeapon() {
 	    GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
 	    {
 	    FireOnce = true;
-	    }, FireRate, false);
+	    }, FireRate, false);  
     } 
 }

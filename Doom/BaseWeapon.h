@@ -6,12 +6,16 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 
-
-
-
-
-
 #include "BaseWeapon.generated.h"
+
+UENUM(BlueprintType)
+enum Ammo {
+	Bullet UMETA(DisplayName = "Bullet"),
+	Shell UMETA(DisplayName = "Shell"),
+	Rocket UMETA(DisplayName = "Rocket"),
+	Cell UMETA(DisplayName = "Cell")
+
+};
 
 
 UCLASS()
@@ -32,16 +36,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-//Weapon Flipbook
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
-	class UPaperFlipbook* ShootingFlipbook;
-
-	class UPaperFlipbook* IdleFlipbook;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
-	class UPaperFlipbookComponent* WeaponFlipBookComponent;
-
-
+	//Components
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class UArrowComponent* ArrowComponent;
 
@@ -51,11 +46,28 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	USceneComponent* LineTraceComponent;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+protected:
+	//Player Reference
+	class ADoomCharacter* playerCharacter;
+
+private:
+	//Weapon
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Flipbooks", meta = (AllowPrivateAccess = "true"))
+	class UPaperFlipbook* ShootingFlipbook;
+
+	class UPaperFlipbook* IdleFlipbook;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Flipbooks", meta = (AllowPrivateAccess = "true"))
+	class UPaperFlipbookComponent* WeaponFlipBookComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	float lineTraceDistance = 4000.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	float weaponDamage = 1.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	TEnumAsByte<Ammo> ammoType;
 
 public:
 
@@ -65,6 +77,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void PlayFireAnimation();
 
-	// float GetShootingFlipbookLength() const;
+	UFUNCTION(BlueprintCallable)
+	bool hasEnoughAmmo();
+
+	UFUNCTION(BlueprintCallable)
+	void decreaseAmmo();
 
 };

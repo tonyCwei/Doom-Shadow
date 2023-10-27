@@ -3,6 +3,7 @@
 
 #include "BaseWeapon.h"
 #include "PaperFlipbookComponent.h"
+#include "DoomCharacter.h"
 #include "Components/ArrowComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
@@ -40,6 +41,7 @@ void ABaseWeapon::BeginPlay()
 {
 	Super::BeginPlay();
 	IdleFlipbook = WeaponFlipBookComponent->GetFlipbook();
+	playerCharacter = Cast<ADoomCharacter>(UGameplayStatics::GetPlayerCharacter(this,0));
 	
 }
 
@@ -50,13 +52,12 @@ void ABaseWeapon::Tick(float DeltaTime)
 
 }
 
-// float ABaseWeapon::GetShootingFlipbookLength() const {
-// 	return ShootingFlipbook->GetTotalDuration();
-// }
+
 
 void ABaseWeapon::FireWeapon(){
 	UE_LOG(LogTemp, Warning, TEXT("BaseWeapon Fire"));
 
+	if (!hasEnoughAmmo()) return;
 	//Parameters for line trace for objects
 	FVector lineTraceLocation = LineTraceComponent->GetComponentLocation();
     FVector lineTraceForward = UKismetMathLibrary::GetForwardVector(LineTraceComponent->GetComponentRotation());
@@ -66,8 +67,6 @@ void ABaseWeapon::FireWeapon(){
 														 UEngineTypes::ConvertToObjectType(ECC_Pawn)};
 	
 	TArray<AActor*> ActorsToIgnore = {Cast<AActor>(this), UGameplayStatics::GetPlayerCharacter(this,0)};
-	
-	
 	FHitResult HitResult;													 
 	
 	//Line Trace
@@ -81,6 +80,7 @@ void ABaseWeapon::FireWeapon(){
 													HitResult, 
 													true);
 	
+	//Apply DMG
 	if (hasHit) {
 		AActor* HitActor = HitResult.GetActor();
 		AActor* myOwner = GetOwner();
@@ -89,11 +89,13 @@ void ABaseWeapon::FireWeapon(){
 		UGameplayStatics::ApplyDamage(HitActor, weaponDamage, MyOwnerInstigator, this, DamageTypeClass);
 	}
 
+	//Decrease Ammo
+	decreaseAmmo();
+	
 	PlayFireAnimation();
 }
 
 void ABaseWeapon::PlayFireAnimation() {
-	
 	WeaponFlipBookComponent->SetFlipbook(ShootingFlipbook);
 	
 	//Set Flipbook back to Idle
@@ -103,4 +105,44 @@ void ABaseWeapon::PlayFireAnimation() {
 	   WeaponFlipBookComponent->SetFlipbook(IdleFlipbook);
 	}, WeaponFlipBookComponent->GetFlipbookLength(), false);
 
+}
+
+bool ABaseWeapon::hasEnoughAmmo() {
+	switch (ammoType)
+	{
+	case Bullet:
+		return playerCharacter->getBullet() > 0;	
+	
+	case Shell:
+		return playerCharacter->getShell() > 0;
+		
+	case Rocket:
+		return playerCharacter->getRocket() > 0;
+	
+	case Cell:
+		return playerCharacter->getCell() > 0;
+	
+	default:
+		return false;
+	}
+}
+
+void ABaseWeapon::decreaseAmmo() {
+	switch (ammoType)
+	{
+	case Bullet:
+		 playerCharacter->decreaseBullet();	
+	
+	case Shell:
+		 playerCharacter->decreaseShell();
+		
+	case Rocket:
+		 playerCharacter->decreaseRocket();
+	
+	case Cell:
+		 playerCharacter->decreaseCell();
+	
+	default:
+		return;
+	}
 }

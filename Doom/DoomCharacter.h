@@ -85,5 +85,60 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	class ABaseWeapon* mainWeapon;
 
+	//Different Types of Bullets
+	//Pistol
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
+	int32 bullet;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
+	int32 maxBullet = 200;
+	
+	//Shotgun
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
+	int32 shell;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
+	int32 maxShell = 50;
+
+	//Rocket Launcher
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
+	int32 rocket;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
+	int32 maxRocket = 50;
+	
+	//Laser
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
+	int32 cell;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
+	int32 maxCell = 300;
+
+public:
+	//Getter
+	UFUNCTION(BlueprintCallable)
+	int32 getBullet() const {return bullet;}
+
+	UFUNCTION(BlueprintCallable)
+	int32 getShell() const {return shell;}
+
+	UFUNCTION(BlueprintCallable)
+	int32 getRocket() const {return rocket;}
+
+	UFUNCTION(BlueprintCallable)
+	int32 getCell() const {return cell;}
+
+	//DecreaseAmmmo
+	UFUNCTION(BlueprintCallable)
+	void decreaseBullet() { bullet--; }
+
+	UFUNCTION(BlueprintCallable)
+	void decreaseShell() { shell--; }
+
+	UFUNCTION(BlueprintCallable)
+	void decreaseRocket() { rocket--; }
+
+	UFUNCTION(BlueprintCallable)
+	void decreaseCell() { cell--; }
 };
 
