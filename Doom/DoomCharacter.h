@@ -128,6 +128,18 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int32 getCell() const {return cell;}
 
+	UFUNCTION(BlueprintCallable)
+	int32 getMaxBullet() const {return maxBullet;}
+
+	UFUNCTION(BlueprintCallable)
+	int32 getMaxShell() const {return maxShell;}
+
+	UFUNCTION(BlueprintCallable)
+	int32 getMaxRocket() const {return maxRocket;}
+
+	UFUNCTION(BlueprintCallable)
+	int32 getMaxCell() const {return maxCell;}
+
 	//DecreaseAmmmo
 	UFUNCTION(BlueprintCallable)
 	void decreaseBullet() { bullet--; }
