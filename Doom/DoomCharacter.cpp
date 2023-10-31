@@ -2,6 +2,8 @@
 
 #include "DoomCharacter.h"
 #include "Animation/AnimInstance.h"
+#include "Blueprint/UserWidget.h"
+#include "UI/PlayerHUD.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
@@ -67,6 +69,15 @@ void ADoomCharacter::BeginPlay()
 	//Assign Main Weapon
 	mainWeapon = Cast<ABaseWeapon>(WeaponChildActorComponent->GetChildActor());
 
+	//Player HUD
+	if (playerHUDClass) {
+		playerHUD = CreateWidget<UPlayerHUD>(this->GetWorld(), playerHUDClass);
+		if (playerHUD) {
+
+			playerHUD->AddToViewport();
+		}
+	}
+
 }
 
 //////////////////////////////////////////////////////////////////////////// Input
@@ -125,6 +136,7 @@ void ADoomCharacter::Look(const FInputActionValue& Value)
 void ADoomCharacter::Shoot(const FInputActionValue& Value) {
 	//UE_LOG(LogTemp, Warning, TEXT("Shoot"));
 	mainWeapon->FireWeapon();
+
 }
 
 

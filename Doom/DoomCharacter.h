@@ -79,13 +79,14 @@ public:
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
 private:
+	//Weapon
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component", meta = (AllowPrivateAccess = "true"))
 	class UChildActorComponent* WeaponChildActorComponent;	
 	
 	UPROPERTY(VisibleAnywhere)
 	class ABaseWeapon* mainWeapon;
 
-	//Different Types of Bullets
+//Different Types of Bullets
 	//Pistol
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
 	int32 bullet;
@@ -114,6 +115,14 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ammo", meta = (AllowPrivateAccess = "true"))
 	int32 maxCell = 300;
 
+	//Player HUD
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "HUD", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class UPlayerHUD> playerHUDClass;
+
+	class UPlayerHUD* playerHUD;
+	
+
+
 public:
 	//Getter
 	UFUNCTION(BlueprintCallable)
@@ -139,6 +148,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	int32 getMaxCell() const {return maxCell;}
+
+	UFUNCTION()
+	UPlayerHUD* getPlayerHUD() { return playerHUD; }
 
 	//DecreaseAmmmo
 	UFUNCTION(BlueprintCallable)

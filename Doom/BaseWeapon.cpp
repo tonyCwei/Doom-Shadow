@@ -4,6 +4,7 @@
 #include "BaseWeapon.h"
 #include "PaperFlipbookComponent.h"
 #include "DoomCharacter.h"
+#include "UI/PlayerHUD.h"
 #include "Components/ArrowComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
@@ -92,6 +93,7 @@ void ABaseWeapon::FireWeapon(){
 	//Decrease Ammo
 	decreaseAmmo();
 	
+	//Animation
 	PlayFireAnimation();
 }
 
@@ -132,15 +134,23 @@ void ABaseWeapon::decreaseAmmo() {
 	{
 	case Bullet:
 		 playerCharacter->decreaseBullet();	
+		 playerCharacter->getPlayerHUD()->UpdateBullet();
+		 break;
 	
 	case Shell:
 		 playerCharacter->decreaseShell();
+		 playerCharacter->getPlayerHUD()->UpdateShell();
+		 break;
 		
 	case Rocket:
 		 playerCharacter->decreaseRocket();
+		 playerCharacter->getPlayerHUD()->UpdateRocket();
+		 break;
 	
 	case Cell:
 		 playerCharacter->decreaseCell();
+		 playerCharacter->getPlayerHUD()->UpdateCell();
+		 break;
 	
 	default:
 		return;
