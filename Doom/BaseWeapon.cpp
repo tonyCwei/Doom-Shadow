@@ -56,7 +56,7 @@ void ABaseWeapon::Tick(float DeltaTime)
 
 
 void ABaseWeapon::FireWeapon(){
-	UE_LOG(LogTemp, Warning, TEXT("BaseWeapon Fire"));
+	//UE_LOG(LogTemp, Warning, TEXT("BaseWeapon Fire"));
 
 	if (!hasEnoughAmmo()) return;
 	//Parameters for line trace for objects
@@ -97,6 +97,11 @@ void ABaseWeapon::FireWeapon(){
 	PlayFireAnimation();
 }
 
+
+void ABaseWeapon::resetFlipbook() {
+	WeaponFlipBookComponent->SetFlipbook(IdleFlipbook);
+}
+
 void ABaseWeapon::PlayFireAnimation() {
 	WeaponFlipBookComponent->SetFlipbook(ShootingFlipbook);
 	
@@ -104,9 +109,14 @@ void ABaseWeapon::PlayFireAnimation() {
 	FTimerHandle TimerHandle;
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
 	{
-	   WeaponFlipBookComponent->SetFlipbook(IdleFlipbook);
+	   resetFlipbook();
 	}, WeaponFlipBookComponent->GetFlipbookLength(), false);
 
+}
+
+void ABaseWeapon::StopFire() {
+	//resetFlipbook();
+	//UE_LOG(LogTemp, Display, TEXT("Stopfire"));
 }
 
 bool ABaseWeapon::hasEnoughAmmo() {

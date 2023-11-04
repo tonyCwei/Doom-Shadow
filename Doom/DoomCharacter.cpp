@@ -99,6 +99,7 @@ void ADoomCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 		//Shooting
 		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Triggered, this, &ADoomCharacter::Shoot);
+		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Completed, this, &ADoomCharacter::StopShoot);
 	}
 	else
 	{
@@ -136,6 +137,12 @@ void ADoomCharacter::Look(const FInputActionValue& Value)
 void ADoomCharacter::Shoot(const FInputActionValue& Value) {
 	//UE_LOG(LogTemp, Warning, TEXT("Shoot"));
 	mainWeapon->FireWeapon();
+
+}
+
+void ADoomCharacter::StopShoot(const FInputActionValue& Value) {
+	
+	mainWeapon->StopFire();
 
 }
 

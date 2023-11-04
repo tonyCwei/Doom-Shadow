@@ -67,6 +67,8 @@ protected:
 	/** Called for shooting input */
 	void Shoot(const FInputActionValue& Value);
 
+	void StopShoot(const FInputActionValue& Value);
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;

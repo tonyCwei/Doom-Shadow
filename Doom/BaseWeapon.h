@@ -75,7 +75,13 @@ public:
 	virtual void FireWeapon();
 
 	UFUNCTION(BlueprintCallable)
+	virtual void StopFire();
+
+	UFUNCTION(BlueprintCallable)
 	virtual void PlayFireAnimation();
+
+	UFUNCTION(BlueprintCallable)
+	void resetFlipbook();
 
 	UFUNCTION(BlueprintCallable)
 	bool hasEnoughAmmo();
