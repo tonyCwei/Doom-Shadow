@@ -4,13 +4,16 @@
 #include "Pistol.h"
 
 void APistol::FireWeapon() {
-    if (FireOnce) {
-        FireOnce = false;
+    if (bFireOnce) {
+        bFireOnce = false;
         Super::FireWeapon();
+        resetFlipbook();
+
+        //control fire rate
         FTimerHandle TimerHandle;
 	    GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
 	    {
-	    FireOnce = true;
-	    }, FireRate, false);  
+	    bFireOnce = true;
+	    }, fireRate, false);  
     } 
 }

@@ -50,7 +50,6 @@ protected:
 	//Player Reference
 	class ADoomCharacter* playerCharacter;
 
-private:
 	//Weapon
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Flipbooks", meta = (AllowPrivateAccess = "true"))
 	class UPaperFlipbook* ShootingFlipbook;
@@ -67,12 +66,18 @@ private:
 	float weaponDamage = 1.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	float fireRate = 1.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	TEnumAsByte<Ammo> ammoType;
 
 public:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void FireWeapon();
+
+	UFUNCTION(BlueprintCallable)
+	virtual void ShootProjectle();
 
 	UFUNCTION(BlueprintCallable)
 	virtual void StopFire();

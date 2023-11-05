@@ -15,10 +15,8 @@ class DOOM_API APistol : public ABaseWeapon
 	GENERATED_BODY()
 
 private:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
-	float FireRate = 1.f;
-
-	bool FireOnce = true;
+	
+	bool bFireOnce = true;
 
 
 public:

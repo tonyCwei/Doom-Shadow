@@ -24,6 +24,6 @@ public:
 
 	void StopFire() override;
 
-	void CallSuperFire(); 
+	virtual void CallFire(); 
 	
 };

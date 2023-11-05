@@ -97,26 +97,35 @@ void ABaseWeapon::FireWeapon(){
 	PlayFireAnimation();
 }
 
+//For Weapons shoot projectle instead of line trace
+void ABaseWeapon::ShootProjectle() {
+	if (!hasEnoughAmmo()) return;
+	
+	UE_LOG(LogTemp, Display, TEXT("Shoot projectle"));
+	
+	//Decrease Ammo
+	decreaseAmmo();
+	
+	//Animation
+	PlayFireAnimation();
+}
+
 
 void ABaseWeapon::resetFlipbook() {
-	WeaponFlipBookComponent->SetFlipbook(IdleFlipbook);
+	FTimerHandle TimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+	{
+	   WeaponFlipBookComponent->SetFlipbook(IdleFlipbook);
+	}, WeaponFlipBookComponent->GetFlipbookLength(), false);
 }
 
 void ABaseWeapon::PlayFireAnimation() {
 	WeaponFlipBookComponent->SetFlipbook(ShootingFlipbook);
-	
-	//Set Flipbook back to Idle
-	FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
-	{
-	   resetFlipbook();
-	}, WeaponFlipBookComponent->GetFlipbookLength(), false);
-
 }
 
+//for hold fire weapon only
 void ABaseWeapon::StopFire() {
-	//resetFlipbook();
-	//UE_LOG(LogTemp, Display, TEXT("Stopfire"));
+	
 }
 
 bool ABaseWeapon::hasEnoughAmmo() {

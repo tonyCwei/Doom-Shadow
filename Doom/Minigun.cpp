@@ -9,11 +9,11 @@
 
 
 void AMinigun::FireWeapon() {
-    GetWorld()->GetTimerManager().SetTimer(minigunEvent, this, &AMinigun::CallSuperFire, 0.15, true, 0);
+    GetWorld()->GetTimerManager().SetTimer(minigunEvent, this, &AMinigun::CallFire, fireRate, true, 0);
 }
 
 
-void AMinigun::CallSuperFire() {
+void AMinigun::CallFire() {
     Super::FireWeapon();
     //if (!hasEnoughAmmo()) StopFire();
 }
