@@ -16,8 +16,13 @@ ABaseProjectile::ABaseProjectile()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	DefaultSceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultSceneComponent"));
-	RootComponent = DefaultSceneComponent;
+	//Setting up components
+	// if (!RootComponent) {
+	// 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultSceneComponent"));
+	// }
+	
+	sphereCollision = CreateDefaultSubobject<USphereComponent>(TEXT("SphereCollision"));
+	RootComponent = sphereCollision;
 
 	ArrowComponent = CreateDefaultSubobject<UArrowComponent>(TEXT("Arrow"));
 	ArrowComponent->SetupAttachment(RootComponent);
@@ -25,17 +30,16 @@ ABaseProjectile::ABaseProjectile()
 	projectileFlipbookComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("ProjectileFlipBook"));
 	projectileFlipbookComponent->SetupAttachment(RootComponent);
 
-	sphereCollision = CreateDefaultSubobject<USphereComponent>(TEXT("SphereCollision"));
-	sphereCollision->SetupAttachment(RootComponent);
 	
 	
-	
-
 	projectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement"));
+	//projectileMovement->SetupAttachment(RootComponent);
 	projectileMovement->InitialSpeed = projectileSpeed;
 	projectileMovement->MaxSpeed = projectileSpeed;
+	projectileMovement->ProjectileGravityScale = 0.0f;
 
-
+	//Setting life span of the projectile
+	//InitialLifeSpan = 3.0f;
 
 }
 
@@ -43,8 +47,8 @@ ABaseProjectile::ABaseProjectile()
 void ABaseProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
 	sphereCollision->OnComponentHit.AddDynamic(this, &ABaseProjectile::OnHit);
+	
 	
 }
 
@@ -59,6 +63,7 @@ void ABaseProjectile::Tick(float DeltaTime)
 void ABaseProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) {
 	UE_LOG(LogTemp, Display, TEXT("onhit called"));
 
+	//May change later
 	AActor* MyOwner = UGameplayStatics::GetPlayerCharacter(this,0);
 	if (MyOwner == nullptr) {
 		Destroy();
