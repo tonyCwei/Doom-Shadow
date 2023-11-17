@@ -101,7 +101,7 @@ void ABaseWeapon::FireWeapon(){
 void ABaseWeapon::ShootProjectle() {
 	if (!hasEnoughAmmo()) return;
 	
-	UE_LOG(LogTemp, Display, TEXT("Shoot projectle"));
+	//UE_LOG(LogTemp, Display, TEXT("Shoot projectle"));
 	
 	//Decrease Ammo
 	decreaseAmmo();

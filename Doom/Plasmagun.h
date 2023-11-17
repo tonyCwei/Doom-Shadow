@@ -16,6 +16,7 @@ class DOOM_API APlasmagun : public AMinigun
 
 public:
 
+	UFUNCTION(BlueprintCallable)
 	void CallFire() override;
 
 

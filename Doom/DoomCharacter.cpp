@@ -73,7 +73,6 @@ void ADoomCharacter::BeginPlay()
 	if (playerHUDClass) {
 		playerHUD = CreateWidget<UPlayerHUD>(this->GetWorld(), playerHUDClass);
 		if (playerHUD) {
-
 			playerHUD->AddToViewport();
 		}
 	}
