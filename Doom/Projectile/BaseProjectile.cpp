@@ -34,14 +34,22 @@ ABaseProjectile::ABaseProjectile()
 	
 	projectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovement"));
 	//projectileMovement->SetupAttachment(RootComponent);
-	projectileMovement->InitialSpeed = projectileSpeed;
-	projectileMovement->MaxSpeed = projectileSpeed;
+	//projectileMovement->InitialSpeed = projectileSpeed;
+	//projectileMovement->MaxSpeed = projectileSpeed;
 	projectileMovement->ProjectileGravityScale = 0.0f;
 
 	//Setting life span of the projectile
 	//InitialLifeSpan = 3.0f;
 
 }
+
+void ABaseProjectile::OnConstruction(const FTransform& Transform) {
+	Super::OnConstruction(Transform);
+	projectileMovement->InitialSpeed = projectileSpeed;
+	projectileMovement->MaxSpeed = projectileSpeed;
+}
+
+
 
 // Called when the game starts or when spawned
 void ABaseProjectile::BeginPlay()
@@ -61,10 +69,11 @@ void ABaseProjectile::Tick(float DeltaTime)
 
 
 void ABaseProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) {
-	UE_LOG(LogTemp, Display, TEXT("onhit called"));
+	UE_LOG(LogTemp, Display, TEXT("%f"), projectileDamage);
 
 	//May change later
-	AActor* MyOwner = UGameplayStatics::GetPlayerCharacter(this,0);
+	//AActor* MyOwner = UGameplayStatics::GetPlayerCharacter(this,0);
+	AActor* MyOwner = GetOwner();
 	if (MyOwner == nullptr) {
 		Destroy();
 		return;
@@ -81,6 +90,7 @@ void ABaseProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UP
 	
 
 	//Set flipbook and destroy, may need set scale
+	projectileFlipbookComponent->SetWorldScale3D(FVector(2,2,2));
 	projectileFlipbookComponent->SetFlipbook(destroyFlipbook);
 	
 	//Destroy after destroyFlipbook finishes playing
@@ -90,7 +100,7 @@ void ABaseProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UP
 	   Destroy();
 	}, projectileFlipbookComponent->GetFlipbookLength(), false);
 
-
-	
 }
+
+
 

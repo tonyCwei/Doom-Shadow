@@ -16,6 +16,9 @@ public:
 	// Sets default values for this actor's properties
 	ABaseProjectile();
 
+	// In order to pass in projectileSpeed as movement component's inital speed/max speed, equivalent of construction script
+	virtual void OnConstruction(const FTransform& Transform) override;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -43,19 +46,18 @@ protected:
 	class UPaperFlipbook* destroyFlipbook;
 
 private:
-
 	
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
+	
+
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
-	float projectileSpeed = 2000;
+	float projectileSpeed = 0.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
-	float projectileDamage = 50;
-
-
+	float projectileDamage = 0.f;
 
 };

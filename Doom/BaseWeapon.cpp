@@ -5,6 +5,7 @@
 #include "PaperFlipbookComponent.h"
 #include "DoomCharacter.h"
 #include "UI/PlayerHUD.h"
+#include "Projectile/BaseProjectile.h"
 #include "Components/ArrowComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
@@ -102,6 +103,25 @@ void ABaseWeapon::ShootProjectle() {
 	if (!hasEnoughAmmo()) return;
 	
 	//UE_LOG(LogTemp, Display, TEXT("Shoot projectle"));
+	//SpawnActor
+	FVector spawnLocation = LineTraceComponent->GetComponentLocation();
+	FRotator spawnRotation = LineTraceComponent->GetComponentRotation();
+	//FTransform SpawnTransform = LineTraceComponent->GetComponentTransform();
+	
+	if (ProjectileClass) {
+		ABaseProjectile* Projectile = GetWorld()->SpawnActor<ABaseProjectile>(ProjectileClass, spawnLocation, spawnRotation);
+		//ABaseProjectile* Projectile = GetWorld()->SpawnActorDeferred<ABaseProjectile>(ProjectileClass, SpawnTransform);
+		if (Projectile) {
+			//UE_LOG(LogTemp, Display, TEXT("SpawnActorDeferred"));
+			Projectile->projectileDamage = weaponDamage;
+			Projectile->SetOwner(this);
+			//Projectile->FinishSpawning(SpawnTransform);
+		}
+	} else {
+		UE_LOG(LogTemp, Error, TEXT("Empty ProjectileClass"));
+	}
+	
+
 	
 	//Decrease Ammo
 	decreaseAmmo();
