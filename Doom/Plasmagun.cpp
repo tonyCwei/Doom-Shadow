@@ -8,4 +8,5 @@
 //Plasmagun shoots projectle instead of line trace
 void APlasmagun::CallFire() {
     ShootProjectle();
+    if (!hasEnoughAmmo()) StopFire();
 }

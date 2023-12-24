@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "BaseWeapon.h"
-#include "Pistol.generated.h"
+#include "RocketLauncher.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class DOOM_API APistol : public ABaseWeapon
+class DOOM_API ARocketLauncher : public ABaseWeapon
 {
 	GENERATED_BODY()
 

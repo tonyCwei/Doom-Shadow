@@ -97,7 +97,7 @@ void ADoomCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ADoomCharacter::Look);
 
 		//Shooting
-		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Triggered, this, &ADoomCharacter::Shoot);
+		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Started, this, &ADoomCharacter::Shoot);
 		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Completed, this, &ADoomCharacter::StopShoot);
 	}
 	else

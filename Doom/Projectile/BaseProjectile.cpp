@@ -3,6 +3,7 @@
 
 #include "BaseProjectile.h"
 #include "PaperFlipbookComponent.h"
+#include "PaperFlipbook.h"
 #include "Components/ArrowComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
@@ -90,15 +91,16 @@ void ABaseProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UP
 	
 
 	//Set flipbook and destroy, may need set scale
-	projectileFlipbookComponent->SetWorldScale3D(FVector(2,2,2));
+	projectileFlipbookComponent->SetWorldScale3D(destroyScale);
 	projectileFlipbookComponent->SetFlipbook(destroyFlipbook);
 	
 	//Destroy after destroyFlipbook finishes playing
-	FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+	FTimerHandle ProjectileTimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(ProjectileTimerHandle, [&]()
 	{
 	   Destroy();
-	}, projectileFlipbookComponent->GetFlipbookLength(), false);
+	}, projectileFlipbookComponent->GetFlipbookLength()*0.9, false);
+	//multiplied 0.9 for delay time in order to prevent flipbook from looping back to the first frame
 
 }
 

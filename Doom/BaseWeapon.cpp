@@ -3,6 +3,7 @@
 
 #include "BaseWeapon.h"
 #include "PaperFlipbookComponent.h"
+#include "PaperFlipbook.h"
 #include "DoomCharacter.h"
 #include "UI/PlayerHUD.h"
 #include "Projectile/BaseProjectile.h"
@@ -10,7 +11,6 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "PaperFlipbook.h"
 #include "GameFramework/Character.h"
 
 // Sets default values
@@ -130,18 +130,19 @@ void ABaseWeapon::ShootProjectle() {
 	PlayFireAnimation();
 }
 
-
-void ABaseWeapon::resetFlipbook() {
-	FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
-	{
-	   WeaponFlipBookComponent->SetFlipbook(IdleFlipbook);
-	}, WeaponFlipBookComponent->GetFlipbookLength(), false);
-}
-
 void ABaseWeapon::PlayFireAnimation() {
 	WeaponFlipBookComponent->SetFlipbook(ShootingFlipbook);
 }
+
+void ABaseWeapon::resetFlipbook() {
+	FTimerHandle resetFlipbookTimerHandle;
+	GetWorld()->GetTimerManager().SetTimer(resetFlipbookTimerHandle, [&]()
+	{
+	   WeaponFlipBookComponent->SetFlipbook(IdleFlipbook);	   
+	}, WeaponFlipBookComponent->GetFlipbookLength()*0.9, false);
+	//multiplied 0.9 for delay time in order to prevent flipbook from looping back to the first frame
+}
+
 
 //for hold fire weapon only
 void ABaseWeapon::StopFire() {

@@ -15,7 +15,7 @@ void AMinigun::FireWeapon() {
 
 void AMinigun::CallFire() {
     Super::FireWeapon();
-    //if (!hasEnoughAmmo()) StopFire();
+    if (!hasEnoughAmmo()) StopFire();
 }
 
 

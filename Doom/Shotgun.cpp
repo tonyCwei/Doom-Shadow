@@ -10,8 +10,8 @@ void AShotgun::FireWeapon() {
         resetFlipbook();
 
         //control fire rate
-        FTimerHandle TimerHandle;
-	    GetWorld()->GetTimerManager().SetTimer(TimerHandle, [&]()
+        FTimerHandle ShotgunTimerHandle;
+	    GetWorld()->GetTimerManager().SetTimer(ShotgunTimerHandle, [&]()
 	    {
 	    bFireOnce = true;
 	    }, fireRate, false);  
