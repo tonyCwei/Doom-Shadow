@@ -23,4 +23,33 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+protected:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class USphereComponent* sphereCollision;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	class UPaperSpriteComponent* WeaponSprite;
+
+private:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	float rotationSpeed;
+
+	UFUNCTION()
+	void RotateImage(float DeltaTime);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class ABaseWeapon> WeaponClass;
+
+	UFUNCTION( )
+    void BeginOverlap(UPrimitiveComponent* OverlappedComponent, 
+                      AActor* OtherActor, 
+                      UPrimitiveComponent* OtherComp, 
+                      int32 OtherBodyIndex, 
+                      bool bFromSweep, 
+                      const FHitResult &SweepResult );
+
+	
+	
 };

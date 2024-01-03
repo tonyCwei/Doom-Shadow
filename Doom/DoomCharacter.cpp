@@ -170,7 +170,7 @@ void ADoomCharacter::Melee(const FInputActionValue& Value) {
 		mainWeapon->FireWeapon();
 	}
 
-	FTimerHandle MeleeHandle;
+	
 	GetWorld()->GetTimerManager().SetTimer(MeleeHandle, [&]()
 	{
 		if (curWeaponClass) {
@@ -179,7 +179,13 @@ void ADoomCharacter::Melee(const FInputActionValue& Value) {
 			canMelee = true;
 		}
 	}, meleeRate, false);
+}
 
-	
+
+void ADoomCharacter::pickupWeapon(TSubclassOf<ABaseWeapon> WeaponClass) {
+	WeaponChildActorComponent->SetChildActorClass(WeaponClass);
+	mainWeapon = Cast<ABaseWeapon>(WeaponChildActorComponent->GetChildActor());
+	GetWorldTimerManager().ClearTimer(MeleeHandle);
+	canMelee = true;
 }
 

@@ -70,7 +70,7 @@ void ABaseProjectile::Tick(float DeltaTime)
 
 
 void ABaseProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) {
-	UE_LOG(LogTemp, Display, TEXT("%f"), projectileDamage);
+	//UE_LOG(LogTemp, Display, TEXT("%f"), projectileDamage);
 
 	//May change later
 	//AActor* MyOwner = UGameplayStatics::GetPlayerCharacter(this,0);
@@ -85,7 +85,7 @@ void ABaseProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UP
 	auto DamageTypeClass = UDamageType::StaticClass();
 
 	if (OtherActor && OtherActor != this && OtherActor != MyOwner) {
-		UE_LOG(LogTemp, Display, TEXT("apply damaged called"));
+		//UE_LOG(LogTemp, Display, TEXT("apply damaged called"));
 		UGameplayStatics::ApplyDamage(OtherActor, projectileDamage, MyOwnerInstigator, this, DamageTypeClass);
 	}
 	

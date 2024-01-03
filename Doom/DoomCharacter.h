@@ -96,16 +96,22 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	class ABaseWeapon* mainWeapon;
 
+
+	//Melee
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Melee", meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<AActor> fistClass;
+	TSubclassOf<ABaseWeapon> fistClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Melee", meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<AActor> curWeaponClass;
+	TSubclassOf<ABaseWeapon> curWeaponClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Melee", meta = (AllowPrivateAccess = "true"))
 	float meleeRate = 0.5f;
 
 	bool canMelee = true;
+
+	FTimerHandle MeleeHandle;
+
+
 
 	bool isShooting = false;
 
@@ -196,5 +202,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void setCanMelee(bool newVal)  {canMelee = newVal;}
+
+
+	//Weapon Pickup
+	UFUNCTION()
+	void pickupWeapon(TSubclassOf<ABaseWeapon> WeaponClass);
 };
 
