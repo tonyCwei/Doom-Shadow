@@ -35,17 +35,17 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-private:
+
+protected:
+	//Player Reference
+	class ADoomCharacter* playerCharacter;
+
 	//Components
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	class UArrowComponent* ArrowComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	USceneComponent* LineTraceComponent;
-
-protected:
-	//Player Reference
-	class ADoomCharacter* playerCharacter;
 
 	//Weapon
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Flipbooks", meta = (AllowPrivateAccess = "true"))

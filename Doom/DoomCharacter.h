@@ -166,5 +166,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void decreaseCell() { cell--; }
+
+	UFUNCTION(BlueprintCallable)
+	void setCell(int32 newCell) { cell = newCell; }
 };
 
