@@ -13,8 +13,8 @@ enum Ammo {
 	Bullet UMETA(DisplayName = "Bullet"),
 	Shell UMETA(DisplayName = "Shell"),
 	Rocket UMETA(DisplayName = "Rocket"),
-	Cell UMETA(DisplayName = "Cell")
-
+	Cell UMETA(DisplayName = "Cell"),
+	Melee UMETA(DisplayName = "Melee")
 };
 
 
@@ -81,6 +81,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void StopFire();
+
+	// UFUNCTION(BlueprintCallable)
+	// virtual void Punch();
 
 	UFUNCTION(BlueprintCallable)
 	virtual void PlayFireAnimation();

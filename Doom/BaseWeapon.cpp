@@ -149,6 +149,11 @@ void ABaseWeapon::StopFire() {
 	
 }
 
+// //for fist
+// void ABaseWeapon::Punch() {
+	
+// }
+
 bool ABaseWeapon::hasEnoughAmmo() {
 	switch (ammoType)
 	{
@@ -163,6 +168,9 @@ bool ABaseWeapon::hasEnoughAmmo() {
 	
 	case Cell:
 		return playerCharacter->getCell() > 0;
+	
+	case Melee:
+		return true;
 	
 	default:
 		return false;

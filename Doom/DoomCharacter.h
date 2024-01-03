@@ -44,6 +44,10 @@ class ADoomCharacter : public ACharacter
 	/** Move Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* ShootAction;
+
+	/** Melee Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
+	UInputAction* MeleeAction;
 	
 public:
 	ADoomCharacter();
@@ -69,6 +73,10 @@ protected:
 
 	void StopShoot(const FInputActionValue& Value);
 
+	/** Called for melee input */
+	void Melee(const FInputActionValue& Value);
+
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
@@ -87,6 +95,19 @@ private:
 	
 	UPROPERTY(VisibleAnywhere)
 	class ABaseWeapon* mainWeapon;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Melee", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> fistClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Melee", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AActor> curWeaponClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Melee", meta = (AllowPrivateAccess = "true"))
+	float meleeRate = 0.5f;
+
+	bool canMelee = true;
+
+	bool isShooting = false;
 
 //Different Types of Bullets
 	//Pistol
@@ -154,6 +175,9 @@ public:
 	UFUNCTION()
 	UPlayerHUD* getPlayerHUD() { return playerHUD; }
 
+	UFUNCTION(BlueprintCallable)
+	bool getCanMelee() const {return canMelee;}
+
 	//DecreaseAmmmo
 	UFUNCTION(BlueprintCallable)
 	void decreaseBullet() { bullet--; }
@@ -169,5 +193,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void setCell(int32 newCell) { cell = newCell; }
+
+	UFUNCTION(BlueprintCallable)
+	void setCanMelee(bool newVal)  {canMelee = newVal;}
 };
 

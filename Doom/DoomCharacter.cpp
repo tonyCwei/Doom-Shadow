@@ -14,6 +14,8 @@
 #include "Components/ChildActorComponent.h"
 #include "BaseWeapon.h"
 
+
+
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 //////////////////////////////////////////////////////////////////////////
@@ -99,6 +101,9 @@ void ADoomCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		//Shooting
 		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Started, this, &ADoomCharacter::Shoot);
 		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Completed, this, &ADoomCharacter::StopShoot);
+
+		//Melee
+		EnhancedInputComponent->BindAction(MeleeAction, ETriggerEvent::Started, this, &ADoomCharacter::Melee);
 	}
 	else
 	{
@@ -134,8 +139,16 @@ void ADoomCharacter::Look(const FInputActionValue& Value)
 }
 
 void ADoomCharacter::Shoot(const FInputActionValue& Value) {
-	//UE_LOG(LogTemp, Warning, TEXT("Shoot"));
+	if (!canMelee) return;
+
 	mainWeapon->FireWeapon();
+	isShooting = true;
+
+	FTimerHandle ShootMeleeHandle;
+	GetWorld()->GetTimerManager().SetTimer(ShootMeleeHandle, [&]()
+	{
+		isShooting = false;
+	}, 0.5, false);
 
 }
 
@@ -145,4 +158,28 @@ void ADoomCharacter::StopShoot(const FInputActionValue& Value) {
 
 }
 
+void ADoomCharacter::Melee(const FInputActionValue& Value) {
+	if (!canMelee || isShooting) return;
+
+	canMelee = false;
+	curWeaponClass = WeaponChildActorComponent->GetChildActorClass();
+
+	if (fistClass) {
+		WeaponChildActorComponent->SetChildActorClass(fistClass);
+		mainWeapon = Cast<ABaseWeapon>(WeaponChildActorComponent->GetChildActor());
+		mainWeapon->FireWeapon();
+	}
+
+	FTimerHandle MeleeHandle;
+	GetWorld()->GetTimerManager().SetTimer(MeleeHandle, [&]()
+	{
+		if (curWeaponClass) {
+			WeaponChildActorComponent->SetChildActorClass(curWeaponClass);	
+			mainWeapon = Cast<ABaseWeapon>(WeaponChildActorComponent->GetChildActor());
+			canMelee = true;
+		}
+	}, meleeRate, false);
+
+	
+}
 
